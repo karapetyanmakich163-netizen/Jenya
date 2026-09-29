@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Sorry, Jenya ❤️</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        font-family: "Segoe UI", sans-serif;
+        background: radial-gradient(circle at center, #24111c, #09070b 70%);
+        color: white;
+    }
+
+    /* Floating background lights */
+    .glow {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: #ff2d75;
+        filter: blur(130px);
+        opacity: .18;
+        animation: move 8s infinite alternate ease-in-out;
+    }
+
+    .glow.one {
+        top: -100px;
+        left: -100px;
+    }
+
+    .glow.two {
+        bottom: -100px;
+        right: -100px;
+        background: #9c27ff;
+        animation-delay: 2s;
+    }
+
+    @keyframes move {
+        from { transform: translate(0, 0); }
+        to { transform: translate(120px, 80px); }
+    }
+
+    .card {
+        position: relative;
+        width: min(90%, 600px);
+        padding: 55px 40px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 30px;
+        background: rgba(255,255,255,.06);
+        backdrop-filter: blur(20px);
+        box-shadow:
+            0 30px 80px rgba(0,0,0,.5),
+            inset 0 0 30px rgba(255,255,255,.03);
+        z-index: 2;
+    }
+
+    .heart {
+        font-size: 85px;
+        display: inline-block;
+        filter: drop-shadow(0 0 25px #ff2d75);
+        animation: heartbeat 1.3s infinite;
+    }
+
+    @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        15% { transform: scale(1.18); }
+        30% { transform: scale(1); }
+        45% { transform: scale(1.12); }
+        60% { transform: scale(1); }
+    }
+
+    h1 {
+        margin-top: 20px;
+        font-size: clamp(35px, 8vw, 65px);
+        font-weight: 700;
+        letter-spacing: -2px;
+        background: linear-gradient(90deg, #fff, #ff7ba9);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    .subtitle {
+        margin-top: 12px;
+        color: #aaa;
+        font-size: 16px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+
+    .message {
+        margin: 35px auto;
+        max-width: 450px;
+        min-height: 70px;
+        color: #ddd;
+        font-size: 18px;
+        line-height: 1.8;
+    }
+
+    .cursor {
+        color: #ff4f87;
+        animation: blink .7s infinite;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+
+    button {
+        border: none;
+        padding: 15px 32px;
+        border-radius: 50px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        background: linear-gradient(135deg, #ff2d75, #ff5c9a);
+        box-shadow: 0 10px 30px rgba(255,45,117,.3);
+        transition: .3s ease;
+    }
+
+    button:hover {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 15px 40px rgba(255,45,117,.5);
+    }
+
+    .secret {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: 1s ease;
+        color: #ffb6cc;
+        font-size: 17px;
+        line-height: 1.7;
+    }
+
+    .secret.show {
+        max-height: 200px;
+        opacity: 1;
+        margin-top: 25px;
+    }
+
+    /* Floating hearts */
+    .floating-heart {
+        position: absolute;
+        bottom: -50px;
+        color: #ff477e;
+        opacity: .6;
+        animation: floatUp linear forwards;
+        pointer-events: none;
+    }
+
+    @keyframes floatUp {
+        from {
+            transform: translateY(0) scale(.7);
+            opacity: 0;
+        }
+        20% { opacity: .7; }
+        to {
+            transform: translateY(-110vh) scale(1.4) rotate(20deg);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<div class="card">
+
+    <div class="heart">❤️</div>
+
+    <h1>I'm Sorry, Jenya</h1>
+
+    <div class="subtitle">
+        From my heart
+    </div>
+
+    <div class="message">
+        <span id="typing"></span>
+        <span class="cursor">|</span>
+    </div>
+
+    <button onclick="reveal()">Open my heart</button>
+
+    <div class="secret" id="secret">
+        I know that “sorry” is just a word,
+        so I don't want to leave it as only a word.
+        <br><br>
+        I genuinely regret hurting you.
+        You mean more to me than my pride ever will. ❤️
+    </div>
+
+</div>
+
+<script>
+
+const text =
+"Sometimes a simple \"I'm sorry\" can never say enough...";
+
+let index = 0;
+
+function typeText() {
+    if (index < text.length) {
+        document.getElementById("typing").textContent += text[index];
+        index++;
+        setTimeout(typeText, 55);
+    }
+}
+
+typeText();
+
+function reveal() {
+    document.getElementById("secret").classList.toggle("show");
+
+    // Create a burst of hearts
+    for (let i = 0; i < 15; i++) {
+        setTimeout(createHeart, i * 80);
+    }
+}
+
+function createHeart() {
+
+    const heart = document.createElement("div");
+
+    heart.className = "floating-heart";
+    heart.innerHTML = Math.random() > .5 ? "❤️" : "♡";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (15 + Math.random() * 25) + "px";
+    heart.style.animationDuration = (4 + Math.random() * 5) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 9000);
+}
+
+// Random hearts in the background
+setInterval(createHeart, 900);
+
+</script>
+
+</body>
+</html>
